@@ -1,0 +1,9 @@
+# docker-compose.yml
+
+version: '3.9.2'
+
+services:
+  flask-api:
+    build: .
+    ports:
+      - "5000:5000"

@@ -1,13 +1,26 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.9.2
+FROM python:3.9-slim
 
-WORKDIR python-docker
+WORKDIR /facevox-api-workdir
 
-COPY requirements.txt requirements.txt
+#
+RUN mkdir -p /data/certbot/www data/certbot/conf
 
-RUN pip3 install -r requirements.txt
 
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install any necessary dependencies
+RUN apt -y update && apt -y upgrade
+RUN apt -y install libopencv-dev
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
 COPY . .
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Define the command to run the application
+CMD [ "python", "app.py"]

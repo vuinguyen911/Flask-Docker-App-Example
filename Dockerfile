@@ -12,8 +12,8 @@ RUN mkdir -p /data/certbot/www data/certbot/conf
 COPY requirements.txt .
 
 # Install any necessary dependencies
-RUN apt -y update && apt -y upgrade
-RUN apt -y install libopencv-dev
+#RUN apt -y update && apt -y upgrade
+#RUN apt -y install libopencv-dev
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container

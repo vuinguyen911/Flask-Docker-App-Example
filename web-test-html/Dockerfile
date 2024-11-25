@@ -1,8 +1,8 @@
-# Use the official Nginx image from the Docker Hub
-FROM nginx:latest
+# Use the official PHP image with Apache
+FROM php:8.1-apache
 
-# Copy the HTML files to the Nginx HTML directory
-COPY . /usr/share/nginx/html
+# Copy the PHP files to the Apache document root
+COPY . /var/www/html/
 
 # Expose port 80 for the web server
 EXPOSE 80

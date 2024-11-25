@@ -1,9 +1,23 @@
-version: "3.8"
-
+version: '3'
+// 略
+### NGINX Server #########################################
 services:
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./etc-letsencrypt:/etc/letsencrypt
-      - ./var-lib-letsencrypt:/var/lib/letsencrypt
-      - ./var-log-letsencrypt:/var/log/letsencrypt
+    nginx:
+       # 略
+      volumes:
+        # 略
+        # - /etc/nginx/conf.d:/etc/nginx/conf.d # 参考ページには記載があったがが正常に動作せずコメントアウト
+        - /etc/letsencrypt:/etc/letsencrypt # 追記
+        - /var/www/html:/var/www/html # 追記
+      # 略
+
+# 以下を追記
+
+### certbot ################################################
+    certbot:
+        image: certbot/certbot:v1.7.0
+        volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+          - /var/www/html:/var/www/html
+        command: ["--version"]
+

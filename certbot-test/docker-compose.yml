@@ -1,22 +1,22 @@
 version: '3'
 ### NGINX Server #########################################
 services:
-    nginx:
-       # 略
-      volumes:
-        # 略
-        # - /etc/nginx/conf.d:/etc/nginx/conf.d # 参考ページには記載があったがが正常に動作せずコメントアウト
-        - /etc/letsencrypt:/etc/letsencrypt # 追記
-        - /var/www/html:/var/www/html # 追記
+  nginx:
+    # 略
+    volumes:
       # 略
+      # - /etc/nginx/conf.d:/etc/nginx/conf.d # 参考ページには記載があったがが正常に動作せずコメントアウト
+      - /etc/letsencrypt:/etc/letsencrypt # 追記
+      - /var/www/html:/var/www/html # 追記
+    # 略
 
-# 以下を追記
+  # 以下を追記
 
-### certbot ################################################
-    certbot:
-        image: certbot/certbot:v1.7.0
-        volumes:
-          - /etc/letsencrypt:/etc/letsencrypt
-          - /var/www/html:/var/www/html
-        command: ["--version"]
+  ### certbot ################################################
+  certbot:
+    image: certbot/certbot:v1.7.0
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/html:/var/www/html
+    command: ["--version"]
 

@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/share/nginx/html
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt ./

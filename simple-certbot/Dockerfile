@@ -1,18 +1,18 @@
-# Use the official Python image
+# Sử dụng image chính thức của Python
 FROM python:3.9-slim
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
+# Thiết lập thư mục làm việc
+WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Sao chép file requirements.txt và cài đặt các dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy the rest of the application code
+# Sao chép mã nguồn của ứng dụng vào container
 COPY . .
 
-# Expose the port the app runs on
+# Expose port mà ứng dụng Flask sẽ chạy trên
 EXPOSE 5000
 
-# Define the command to run the app
+# Định nghĩa lệnh để chạy ứng dụng
 CMD ["python", "app.py"]

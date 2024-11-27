@@ -8,7 +8,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx-web
     ports:
       - "80:80"
       - "443:443"
@@ -21,7 +21,7 @@ services:
 
   certbot:
     image: certbot/certbot
-    container_name: certbot
+    container_name: certbot-web
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot

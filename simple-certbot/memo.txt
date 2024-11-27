@@ -167,3 +167,11 @@ Step 8: Automate Certificate Renewal
 Certbot container in the docker-compose.yml already handles the certificate renewal process. Ensure it’s running and renews the certificates periodically.
 
 With these steps, you should have a Dockerized Flask application running with Nginx and secured with SSL certificates from Certbot. Adjust the configurations as needed for your specific use case
+
+# 1. docker force rebuild after change
+    docker-compose up --build
+# 2. docker restart service
+    docker-compose up -d
+
+
+

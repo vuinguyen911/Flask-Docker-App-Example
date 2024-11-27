@@ -10,13 +10,13 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: flask_nginx
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./certbot/www:/var/www/certbot
     networks:

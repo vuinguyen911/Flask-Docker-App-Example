@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello,docker + nginx + flask + certbot ssl!'
+    return 'Hello, docker + nginx + flask + certbot ssl!'
 
 
 if __name__ == '__main__':

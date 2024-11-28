@@ -170,8 +170,13 @@ With these steps, you should have a Dockerized Flask application running with Ng
 
 # 1. docker force rebuild after change
     docker-compose up --build
+
 # 2. docker restart service
     docker-compose up -d
 
+# 3. remove all docker container
+    docker rm -f $(docker ps -q -a)
 
+//certbot standalone
+sudo certbot certonly --standalone -d test.facevox.jp --staple-ocsp -m vnv1004@gmail.com --agree-tos
 

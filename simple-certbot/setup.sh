@@ -20,11 +20,11 @@ command_exists() {
 install_docker() {
     echo "Installing Docker 25.0.5..."
     # Remove any old versions
-    sudo apt-get remove docker docker-engine docker.io containerd runc
+    sudo yum remove docker docker-engine docker.io containerd runc
 
     # Update the apt package index and install packages to allow apt to use a repository over HTTPS:
-    sudo apt-get update
-    sudo apt-get install -y \
+    sudo yum update
+    sudo yum install -y \
         ca-certificates \
         curl \
         gnupg
@@ -39,8 +39,8 @@ install_docker() {
       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
     # Install Docker Engine
-    sudo apt-get update
-    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo yum update
+    sudo yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
     echo "Docker 25.0.5 installed successfully."
 }
@@ -48,8 +48,8 @@ install_docker() {
 # Function to install Certbot
 install_certbot() {
     echo "Installing Certbot..."
-    sudo apt-get update
-    sudo apt-get install -y certbot
+    sudo yum update
+    sudo yum install -y certbot
     echo "Certbot installed successfully."
 }
 

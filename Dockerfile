@@ -1,26 +1,18 @@
-# syntax=docker/dockerfile:1
-
+# Sử dụng image chính thức của Python
 FROM python:3.9-slim
 
-WORKDIR /facevox-api-workdir
+# Thiết lập thư mục làm việc
+WORKDIR /app
 
-#
-RUN mkdir -p /data/certbot/www data/certbot/conf
+# Sao chép file requirements.txt và cài đặt các dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
-
-# Copy the requirements file into the container
-COPY requirements.txt .
-
-# Install any necessary dependencies
-#RUN apt -y update && apt -y upgrade
-#RUN apt -y install libopencv-dev
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code into the container
+# Sao chép mã nguồn của ứng dụng vào container
 COPY . .
 
-# Make port 5000 available to the world outside this container
+# Expose port mà ứng dụng Flask sẽ chạy trên
 EXPOSE 5000
 
-# Define the command to run the application
-CMD [ "python", "app.py"]
+# Định nghĩa lệnh để chạy ứng dụng
+CMD ["python", "app.py"]

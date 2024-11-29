@@ -63,6 +63,22 @@ install_certbot() {
     echo "Certbot installed successfully."
 }
 
+# Function to verify Docker installation
+verify_certbot_installation() {
+    if command_exists certbot; then
+        certbot --version
+        if [ $? -eq 0 ]; then
+            echo "Certbot installation verified successfully."
+        else
+            echo "Certbot installation verification failed."
+            exit 1
+        fi
+    else
+        echo "Certbot is not installed."
+        exit 1
+    fi
+}
+
 # Function to setup SSL certificate with Certbot
 setup_certbot() {
     echo "Setting up SSL certificate with Certbot..."
@@ -111,7 +127,7 @@ main() {
         install_docker
     fi
 
-    # verify docker
+    # verify docker after install
     verify_docker_installation
 
     # Check and install Certbot
@@ -120,6 +136,9 @@ main() {
     else
         install_certbot
     fi
+
+    # verify certbot after install
+    verify_certbot_installation
 
     # Setup Certbot SSL certificate
     setup_certbot

@@ -100,11 +100,11 @@ clone_repository() {
 
 # Function to download model from remote URL
 download_model() {
-    MODEL_URL="https://path.to/your/model"
+    MODEL_URL="http://212.183.159.230/"
     MODEL_DIR="Flask-Docker-App-Example/model"
     echo "Downloading model from remote URL..."
     mkdir -p "$MODEL_DIR"
-    curl -o "$MODEL_DIR/model.file" "$MODEL_URL"
+    curl -o "$MODEL_DIR/10MB.zip" "$MODEL_URL"
     echo "Model downloaded successfully."
 }
 

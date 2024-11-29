@@ -19,31 +19,41 @@ command_exists() {
 # Function to install Docker
 install_docker() {
     echo "Installing Docker 25.0.5..."
-    # Remove any old versions
-    sudo yum remove docker docker-engine docker.io containerd runc
 
-    # Update the apt package index and install packages to allow apt to use a repository over HTTPS:
-    sudo yum update
-    sudo yum install -y \
-        ca-certificates \
-        curl \
-        gnupg
+    # Update the package index
+    sudo dnf update -y
 
-    # Add Docker’s official GPG key:
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    # Install Docker
+    sudo dnf install -y docker
 
-    # Set up the repository:
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    # Start Docker service
+    sudo systemctl start docker
 
-    # Install Docker Engine
-    sudo yum update
-    sudo yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    # Enable Docker service to start on boot
+    sudo systemctl enable docker
+
+    # Add ec2-user to the docker group
+    sudo usermod -aG docker ec2-user
 
     echo "Docker 25.0.5 installed successfully."
 }
+
+# Function to verify Docker installation
+verify_docker_installation() {
+    if command_exists docker; then
+        docker --version
+        if [ $? -eq 0 ]; then
+            echo "Docker installation verified successfully."
+        else
+            echo "Docker installation verification failed."
+            exit 1
+        fi
+    else
+        echo "Docker is not installed."
+        exit 1
+    fi
+}
+
 
 # Function to install Certbot
 install_certbot() {
@@ -107,6 +117,9 @@ main() {
     else
         install_certbot
     fi
+
+    # verify docker
+    verify_docker_installation
 
     # Setup Certbot SSL certificate
     setup_certbot

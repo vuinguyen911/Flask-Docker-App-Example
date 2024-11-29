@@ -21,10 +21,10 @@ install_docker() {
     echo "Installing Docker 25.0.5..."
 
     # Update the package index
-    sudo dnf update -y
+    sudo yum update -y
 
     # Install Docker
-    sudo dnf install -y docker
+    sudo yum install -y docker
 
     # Start Docker service
     sudo systemctl start docker
@@ -35,7 +35,7 @@ install_docker() {
     # Add ec2-user to the docker group
     sudo usermod -aG docker ec2-user
 
-    echo "Docker 25.0.5 installed successfully."
+    # echo "Docker 25.0.5 installed successfully."
 }
 
 # Function to verify Docker installation
@@ -111,15 +111,15 @@ main() {
         install_docker
     fi
 
+    # verify docker
+    verify_docker_installation
+
     # Check and install Certbot
     if command_exists certbot; then
         echo "Certbot is already installed."
     else
         install_certbot
     fi
-
-    # verify docker
-    verify_docker_installation
 
     # Setup Certbot SSL certificate
     setup_certbot

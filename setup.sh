@@ -54,6 +54,39 @@ verify_docker_installation() {
     fi
 }
 
+# Function to install Docker Compose
+install_docker_compose() {
+    echo "Installing Docker Compose..."
+
+    # Download Docker Compose binary
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+    # Apply executable permissions to the binary
+    sudo chmod +x /usr/local/bin/docker-compose
+
+    # Create a symbolic link to /usr/bin
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+    echo "Docker Compose installed successfully."
+}
+
+# Function to verify Docker Compose installation
+verify_docker_compose_installation() {
+    if command_exists docker-compose; then
+        docker-compose --version
+        if [ $? -eq 0 ]; then
+            echo "Docker Compose installation verified successfully."
+        else
+            echo "Docker Compose installation verification failed."
+            exit 1
+        fi
+    else
+        echo "Docker Compose is not installed."
+        exit 1
+    fi
+}
+
+
 
 # Function to install Certbot
 install_certbot() {
@@ -129,6 +162,17 @@ main() {
 
     # verify docker after install
     verify_docker_installation
+
+    # Check and install Docker Compose
+    if command_exists docker-compose; then
+        echo "Docker Compose is already installed."
+        docker-compose --version
+    else
+        install_docker_compose
+    fi
+
+    # Verify Docker Compose installation
+    verify_docker_compose_installation
 
     # Check and install Certbot
     if command_exists certbot; then

@@ -185,7 +185,7 @@ main() {
     verify_certbot_installation
 
     # Setup Certbot SSL certificate
-    setup_certbot
+#    setup_certbot
 
     # Clone the GitHub repository
     clone_repository

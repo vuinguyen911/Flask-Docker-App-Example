@@ -179,6 +179,7 @@ With these steps, you should have a Dockerized Flask application running with Ng
 
 //certbot standalone
 sudo certbot certonly --standalone -d test.facevox.jp --staple-ocsp -m vnv1004@gmail.com --agree-tos
+sudo certbot certonly --standalone -d demo.facevox.jp --staple-ocsp -m vnv1004@gmail.com --agree-tos
 
 // chmod bash file
 chmod +x setup.sh

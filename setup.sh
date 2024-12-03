@@ -11,6 +11,21 @@
 
 #!/bin/bash
 
+# Define variables
+DOCKER_VERSION="latest"
+DOCKER_COMPOSE_VERSION="2.23.0"
+PROJECT_NAME="facevox_api"
+# dev
+#GITHUB_REPO="https://github.com/vuinguyen911/Flask-Docker-App-Example.git"
+#GITHUB_BRANCH="main"
+# honban
+GITHUB_REPO="git@git.vtmlab.com:vtm-dev-group/kaoninshou.git"
+GITHUB_BRANCH="facerec_faster_multi_customer"
+MODEL_URL="http://212.183.159.230/"
+MODEL_DIR="facevox_api/model"
+DOMAIN="test.facevox.jp"
+EMAIL="vnv1004@gmail.com"
+
 # Function to check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
@@ -56,10 +71,10 @@ verify_docker_installation() {
 
 # Function to install Docker Compose
 install_docker_compose() {
-    echo "Installing Docker Compose..."
+    echo "Installing Docker Compose from $DOCKER_COMPOSE_VERSION..."
 
     # Download Docker Compose binary
-    sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/v$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
     # Apply executable permissions to the binary
     sudo chmod +x /usr/local/bin/docker-compose
@@ -67,7 +82,7 @@ install_docker_compose() {
     # Create a symbolic link to /usr/bin
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-    echo "Docker Compose installed successfully."
+    echo "Docker Compose $DOCKER_COMPOSE_VERSION installed successfully."
 }
 
 # Function to verify Docker Compose installation
@@ -115,26 +130,24 @@ verify_certbot_installation() {
 # Function to setup SSL certificate with Certbot
 setup_certbot() {
     echo "Setting up SSL certificate with Certbot..."
-    sudo certbot certonly --standalone -d test.facevox.jp --email vnv1004@gmail.com --agree-tos --non-interactive
+    sudo certbot certonly --standalone -d $DOMAIN --email $EMAIL --agree-tos --non-interactive
     echo "SSL certificate setup completed."
 }
 
 # Function to clone the GitHub repository
 clone_repository() {
-    echo "Cloning GitHub repository..."
-    if [ ! -d "Flask-Docker-App-Example" ]; then
-        git clone -b main https://github.com/vuinguyen911/Flask-Docker-App-Example.git
+    echo "Cloning GitHub repository from $GITHUB_REPO..."
+    if [ ! -d "facevox_api" ]; then
+        git clone -b $GITHUB_BRANCH $GITHUB_REPO facevox_api
     else
         echo "Repository already exists. Pulling the latest changes..."
-        cd Flask-Docker-App-Example && git pull origin main && cd ..
+        cd facevox_api && git pull origin main && cd ..
     fi
     echo "GitHub repository cloned successfully."
 }
 
 # Function to download model from remote URL
 download_model() {
-    MODEL_URL="http://212.183.159.230/"
-    MODEL_DIR="Flask-Docker-App-Example/model"
     echo "Downloading model from remote URL..."
     mkdir -p "$MODEL_DIR"
     curl -o "$MODEL_DIR/10MB.zip" "$MODEL_URL"
@@ -144,7 +157,7 @@ download_model() {
 # Function to build and start Docker Compose services
 start_docker_compose() {
     echo "Building and starting Docker Compose services..."
-    cd Flask-Docker-App-Example
+    cd $PROJECT_NAME
     docker-compose up -d --build
     echo "Docker Compose services started successfully."
 }
